@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Plant Ops – Concept for Continental Battery Systems</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#10181d;--g2:#1c2830;--steel:#eaeef1;--card:#fff;--line:#dbe1e5;--amber:#ffb81c;--ok:#22a45d;--bad:#e04848;--warn:#f08c1a;--mute:#697881;--page:#b9c4cb;--sans:'Barlow',system-ui,-apple-system,'Segoe UI',sans-serif;--cond:'Barlow Condensed','Arial Narrow',sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--page:#0c1115}}
+:root[data-theme="dark"]{--page:#0c1115}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;margin:0}
+body{background:radial-gradient(circle at 30% 20%,var(--page),#00000022 140%),var(--page);font-family:var(--sans);color:var(--ink);display:flex;align-items:center;justify-content:center}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.phone{position:relative;width:390px;height:min(840px,100%);background:var(--steel);border-radius:38px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 30px 80px rgba(0,0,0,.4);border:9px solid #0a0f12}
+@media (max-width:480px){.phone{width:100%;height:100%;border:0;border-radius:0;box-shadow:none}}
+header{background:linear-gradient(160deg,var(--g2),var(--ink));color:#fff;padding:16px 18px 18px;position:relative;overflow:hidden}
+header:after{content:"";position:absolute;right:-40px;top:-50px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,#ffb81c55,transparent 70%)}
+.brand{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#a9b7bf;position:relative;z-index:1}
+.live{display:flex;align-items:center;gap:6px;font-weight:600;color:#fff}
+.live i{width:8px;height:8px;border-radius:50%;background:var(--ok);animation:pulse 1.6s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 #22a45d99}100%{box-shadow:0 0 0 9px #22a45d00}}
+h1{font-family:var(--cond);font-size:32px;margin:8px 0 0;letter-spacing:.2px;position:relative;z-index:1}
+.sub{font-size:13px;color:#a9b7bf;position:relative;z-index:1}
+main{flex:1;overflow-y:auto;padding:16px 16px 14px}
+.screen{display:none}
+.screen.on{display:flex;flex-direction:column;min-height:100%}
+.screen.on>*{animation:in .45s cubic-bezier(.2,.8,.2,1) both}
+.screen.on>*:nth-child(2){animation-delay:.06s}.screen.on>*:nth-child(3){animation-delay:.12s}.screen.on>*:nth-child(4){animation-delay:.18s}.screen.on>*:nth-child(5){animation-delay:.24s}
+@keyframes in{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.credit{margin-top:auto;padding:22px 0 4px;text-align:center;font-size:12px;font-weight:600;color:var(--mute);letter-spacing:.3px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px;margin-bottom:12px;box-shadow:0 2px 10px rgba(16,24,29,.05)}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+h2{font-family:var(--cond);font-size:22px;margin:2px 0 10px}
+.big{font-family:var(--cond);font-size:42px;line-height:1}
+.mute{color:var(--mute);font-size:13px}
+.hero{display:flex;align-items:center;gap:18px;background:linear-gradient(150deg,var(--g2),var(--ink));color:#fff;border:0}
+.ring{position:relative;width:128px;height:128px;flex:none}
+.ring svg{width:128px;height:128px;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:11;stroke-linecap:round}
+.ring .tr{stroke:#ffffff1f}.ring .pg{stroke:url(#gr);stroke-dasharray:327;stroke-dashoffset:327;transition:stroke-dashoffset .8s cubic-bezier(.3,1,.4,1)}
+.ring b{position:absolute;inset:0;display:grid;place-items:center;font:700 34px var(--cond)}
+.hero .mute{color:#a9b7bf}
+.item{display:flex;gap:13px;align-items:center;padding:13px 4px;border-top:1px solid var(--line);cursor:pointer;min-height:58px;transition:background .2s}
+.item:first-of-type{border-top:0}
+.item:active{background:#0000000a}
+.box{width:30px;height:30px;border:2px solid #9aa8b0;border-radius:9px;flex:none;display:grid;place-items:center;color:#fff;font-weight:700;transition:.25s}
+.item.done .box{background:var(--ok);border-color:var(--ok);animation:pop .35s}
+@keyframes pop{50%{transform:scale(1.25)}}
+.item.done span.t{text-decoration:line-through;color:var(--mute)}
+.chip{font-size:12px;font-weight:700;padding:4px 10px;border-radius:20px;color:#fff;white-space:nowrap}
+.pass{background:var(--ok)}.fail{background:var(--bad)}.attn{background:var(--warn)}.pend{background:#8796a0}
+.mc{position:relative;padding-left:20px;overflow:hidden}
+.mc:before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--c,#8796a0);transition:background .3s}
+.seg{display:flex;gap:7px;margin-top:12px}
+.seg button,.opt{flex:1;border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:11px 4px;font:600 14px var(--sans);color:var(--ink);cursor:pointer;min-height:46px;transition:.2s}
+.seg button:active,.opt:active,.btn:active{transform:scale(.96)}
+.seg button.sel.pass{background:var(--ok);color:#fff;border-color:var(--ok)}
+.seg button.sel.attn{background:var(--warn);color:#fff;border-color:var(--warn)}
+.seg button.sel.fail{background:var(--bad);color:#fff;border-color:var(--bad)}
+.opts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.opts .opt{flex:none;padding:10px 15px}
+.opt.sel{background:var(--ink);color:#fff;border-color:var(--ink);box-shadow:0 4px 12px rgba(16,24,29,.3)}
+label.l{font-weight:700;font-size:14px;display:block;margin:4px 0 8px}
+select,textarea{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:13px;font:500 15px var(--sans);background:#fff;color:var(--ink);margin-bottom:14px}
+textarea{min-height:88px;resize:none}
+.btn{width:100%;border:0;border-radius:14px;background:linear-gradient(180deg,#ffc33d,var(--amber));color:var(--ink);font:700 17px var(--sans);padding:15px;cursor:pointer;min-height:54px;box-shadow:0 6px 16px #ffb81c66;transition:.2s}
+.btn.ok{background:var(--ok);color:#fff;box-shadow:0 6px 16px #22a45d55}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.kpis .card{margin:0}
+.up{color:var(--ok);font-weight:700;font-size:13px}.dn{color:var(--bad);font-weight:700;font-size:13px}
+.bars{display:flex;align-items:flex-end;gap:12px;height:140px}
+.bars div{flex:1;text-align:center;font-size:12px;font-weight:600;color:var(--mute);display:flex;flex-direction:column;justify-content:flex-end;height:100%}
+.bars b{display:block;background:linear-gradient(180deg,#3a4d58,var(--ink));border-radius:8px 8px 0 0;margin-bottom:5px;height:0;transition:height .9s cubic-bezier(.2,1,.3,1)}
+.bars b.hi{background:linear-gradient(180deg,#ffd067,var(--amber))}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
+.tile{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 8px;text-align:center}
+.tile .big{font-size:38px}.tile span{font-size:12px;color:var(--mute);font-weight:600}
+.ack{display:none;align-items:center;gap:10px;margin-top:12px;padding:12px;border-radius:12px;background:#22a45d1a;color:#127a43;font-weight:600;font-size:14px}
+.ack.on{display:flex;animation:in .4s both}
+.photo{border:2px dashed #aab7be;border-radius:14px;padding:16px;text-align:center;color:var(--mute);font-weight:600;margin-bottom:14px;cursor:pointer;transition:.25s}
+.photo.has{border:2px solid var(--ok);color:var(--ok);background:#22a45d12}
+nav{position:relative;display:flex;background:#fff;border-top:1px solid var(--line);padding-bottom:4px}
+.ind{position:absolute;top:0;left:0;width:20%;height:3px;display:flex;justify-content:center;transition:transform .4s cubic-bezier(.3,1.4,.5,1)}
+.ind i{width:40px;height:3px;background:var(--amber);border-radius:0 0 4px 4px}
+nav button{flex:1;border:0;background:none;padding:9px 0 7px;font:600 11px var(--sans);color:var(--mute);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;min-height:58px}
+nav button.on{color:var(--ink)}
+nav svg{width:20px;height:20px;stroke:var(--mute);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:.3s}
+nav button.on svg{stroke:var(--ink)}nav button.on .ic{background:var(--amber);transform:translateY(-2px)}
+.ic{width:38px;height:28px;border-radius:14px;display:grid;place-items:center;transition:.3s}
+.toast{position:absolute;left:50%;bottom:92px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:12px 20px;border-radius:26px;font-weight:600;font-size:14px;opacity:0;transition:.3s;pointer-events:none;white-space:nowrap;z-index:5;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.toast.show{opacity:1;transform:translateX(-50%)}
+.splash{position:absolute;inset:0;background:radial-gradient(circle at 50% 40%,#22323b,var(--ink));z-index:9;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;transition:opacity .6s,visibility .6s;cursor:pointer}
+.splash.out{opacity:0;visibility:hidden}
+.bat{position:relative;width:110px;height:56px;border:4px solid #fff;border-radius:12px;padding:5px;margin-bottom:26px}
+.bat:after{content:"";position:absolute;right:-12px;top:14px;width:7px;height:20px;background:#fff;border-radius:0 4px 4px 0}
+.bat i{display:block;height:100%;width:0;border-radius:5px;background:linear-gradient(90deg,var(--amber),var(--ok));animation:fill 1.5s .2s forwards cubic-bezier(.4,0,.2,1)}
+@keyframes fill{to{width:100%}}
+.splash h3{font:700 40px var(--cond);margin:0}
+.splash p{margin:6px 0 0;color:#a9b7bf;font-size:14px}
+:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important;transition-duration:.01s!important}}
+</style>
+</head>
+<body>
+<div class="phone">
+<div class="splash" id="splash"><div class="bat"><i></i></div><h3>Plant Ops</h3><p>Concept for Continental Battery Systems</p></div>
+<header>
+  <div class="brand"><span>Continental Battery Systems</span><span class="live"><i></i>Live</span></div>
+  <h1 id="title">Production checklist</h1>
+  <div class="sub" id="sub">Plant 2 · Day shift · Tue 3 Nov</div>
+</header>
+<main>
+  <section class="screen on" id="s0">
+    <div class="card hero">
+      <div class="ring"><svg viewBox="0 0 120 120"><defs><linearGradient id="gr"><stop offset="0" stop-color="#ffb81c"/><stop offset="1" stop-color="#22a45d"/></linearGradient></defs><circle class="tr" cx="60" cy="60" r="52"/><circle class="pg" id="pg" cx="60" cy="60" r="52"/></svg><b id="pct">0%</b></div>
+      <div><h2 style="margin:0 0 4px">Shift charge</h2><div class="mute" id="cnt"></div><span class="chip pend" id="pst" style="display:inline-block;margin-top:10px">In progress</span></div>
+    </div>
+    <div class="card" id="list"></div>
+    <div class="credit">Designed by The Brand Design</div>
+  </section>
+
+  <section class="screen" id="s1">
+    <div id="mach"></div>
+    <button class="btn" id="signbtn">Sign and submit inspection log</button>
+    <div class="credit">Designed by The Brand Design</div>
+  </section>
+
+  <section class="screen" id="s2">
+    <div>
+      <label class="l">Machine</label><select id="dm"></select>
+      <label class="l">What went wrong?</label><div class="opts" id="dt"></div>
+      <label class="l">How serious?</label><div class="opts" id="ds"></div>
+      <div class="photo" id="ph">Tap to add a photo</div>
+      <textarea id="dn" placeholder="Add a note or tap to dictate"></textarea>
+      <button class="btn" id="dsub">Submit defect report</button>
+    </div>
+    <h2 style="margin-top:20px">Reported this shift</h2>
+    <div id="dlist"></div>
+    <div class="credit">Designed by The Brand Design</div>
+  </section>
+
+  <section class="screen" id="s3">
+    <div class="tiles">
+      <div class="tile"><div class="big" id="h1">0</div><span>Open tasks</span></div>
+      <div class="tile"><div class="big" id="h2">0</div><span>Need attention</span></div>
+      <div class="tile"><div class="big" id="h3">0</div><span>Defects</span></div>
+    </div>
+    <div>
+      <label class="l">Notes for the night supervisor</label>
+      <textarea id="hn">Casting Machine 1 running slow. Maintenance has been called.</textarea>
+      <button class="btn" id="hsub">Send handover</button>
+      <div class="ack" id="ack">✓ Acknowledged by Maria S., night supervisor</div>
+    </div>
+    <div class="credit">Designed by The Brand Design</div>
+  </section>
+
+  <section class="screen" id="s4">
+    <div class="opts" id="plants"></div>
+    <div class="kpis" id="kpis"></div>
+    <div class="card"><h2>Output by line (units per hour)</h2><div class="bars" id="chart"></div></div>
+    <div class="credit">Designed by The Brand Design</div>
+  </section>
+</main>
+<nav id="nav"><div class="ind" id="ind"><i></i></div></nav>
+<div class="toast" id="toast"></div>
+</div>
+
+<script>
+var $=function(i){return document.getElementById(i)};
+var titles=[['Production checklist','Plant 2 · Day shift · Tue 3 Nov'],['Machine inspections','Daily rounds · 6 machines'],['Report a defect','Takes under 30 seconds'],['Shift handover','Day shift to night shift'],['Plant performance','Compare your facilities']];
+var icons=['<path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/>','<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>','<path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/>','<path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>','<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/>'];
+var names=['Checklist','Inspect','Defect','Handover','Plants'];
+var tasks=[['Wear safety gear and check eye wash station',1],['Confirm lead alloy temperature at casting',1],['Check grid pasting thickness sample',0],['Verify formation charger bank settings',0],['Inspect acid fill levels on Line 3',0],['Clear walkways and label scrap bins',0],['Record end-of-shift counts',0]];
+var machines=[['Casting Machine 1','Line 1'],['Grid Pasting Unit','Line 1'],['Formation Charger Bank','Line 2'],['Assembly Line 3','Line 3'],['Heat Seal Station','Line 3'],['Test and Pack Station','Line 4']];
+var mstat=['attn','pass','pass','pend','pend','pend'];
+var col={pass:'#22a45d',attn:'#f08c1a',fail:'#e04848',pend:'#8796a0'};
+var types=['Case crack','Terminal misaligned','Low acid fill','Weld defect','Leak','Other'];
+var sev=['Minor','Major','Stop line'];
+var defects=[['Casting Machine 1','Weld defect','Minor','7:42 AM']];
+var dsel={t:'',s:''},photo=false,cur=0;
+var plants={'Plant 1':{out:1240,def:1.8,dt:42,up:'+3.1%',lines:[60,72,55,80]},'Plant 2':{out:1385,def:1.2,dt:28,up:'+5.4%',lines:[70,88,76,92]},'Plant 3':{out:980,def:2.6,dt:71,up:'−1.9%',lines:[48,52,40,58]}};
+var pcur='Plant 2';
+
+function cnt(el,to,dec,suf,dur){var s=performance.now();dur=dur||900;(function f(t){var p=Math.min(1,(t-s)/dur);p=1-Math.pow(1-p,3);el.textContent=(to*p).toLocaleString('en-US',{minimumFractionDigits:dec,maximumFractionDigits:dec})+suf;if(p<1)requestAnimationFrame(f)})(s)}
+function toast(m){var t=$('toast');t.textContent=m;t.className='toast show';clearTimeout(toast.k);toast.k=setTimeout(function(){t.className='toast'},2200)}
+function go(n){cur=n;for(var i=0;i<5;i++){$('s'+i).className='screen'+(i==n?' on':'')}
+ $('title').textContent=titles[n][0];$('sub').textContent=titles[n][1];
+ [].forEach.call($('nav').querySelectorAll('button'),function(b,i){b.className=i==n?'on':''});
+ $('ind').style.transform='translateX('+(n*100)+'%)';
+ if(n==0)renderList(true);if(n==3)handover();if(n==4)renderPlants();
+ document.querySelector('main').scrollTop=0}
+function buildNav(){var h='';for(var i=0;i<5;i++)h+='<button onclick="go('+i+')"><span class="ic"><svg viewBox="0 0 24 24">'+icons[i]+'</svg></span>'+names[i]+'</button>';$('nav').insertAdjacentHTML('beforeend',h)}
+
+function renderList(first){var d=0,h='';tasks.forEach(function(t,i){if(t[1])d++;h+='<div class="item'+(t[1]?' done':'')+'" onclick="tog('+i+')"><div class="box">'+(t[1]?'✓':'')+'</div><span class="t">'+t[0]+'</span></div>'});
+ $('list').innerHTML=h;var p=Math.round(d/tasks.length*100);
+ cnt($('pct'),p,0,'%',first?1000:500);$('cnt').textContent=d+' of '+tasks.length+' tasks done';
+ setTimeout(function(){$('pg').style.strokeDashoffset=327*(1-p/100)},60);
+ var s=$('pst');s.textContent=p==100?'Fully charged':'In progress';s.className='chip '+(p==100?'pass':'pend')}
+function tog(i){tasks[i][1]=tasks[i][1]?0:1;renderList();if(tasks.every(function(t){return t[1]}))toast('Fully charged. Checklist complete.')}
+
+function renderMach(){var h='';machines.forEach(function(m,i){var s=mstat[i],l={pass:'Pass',attn:'Needs attention',fail:'Fail',pend:'Not checked'}[s];
+ h+='<div class="card mc" style="--c:'+col[s]+'"><div class="row"><div><b>'+m[0]+'</b><div class="mute">'+m[1]+'</div></div><span class="chip '+s+'">'+l+'</span></div><div class="seg">'+
+ [['pass','Pass'],['attn','Attention'],['fail','Fail']].map(function(x){return '<button class="'+x[0]+(s==x[0]?' sel':'')+'" onclick="setm('+i+',\''+x[0]+'\')">'+x[1]+'</button>'}).join('')+'</div></div>'});
+ $('mach').innerHTML=h}
+function setm(i,s){mstat[i]=s;renderMach();if(s=='fail'){toast('Marked as failed. Opening defect report.');$('dm').selectedIndex=i;setTimeout(function(){go(2)},800)}}
+
+function renderDef(){var v=$('dm').selectedIndex;$('dm').innerHTML=machines.map(function(m){return '<option>'+m[0]+'</option>'}).join('');$('dm').selectedIndex=Math.max(v,0);
+ $('dt').innerHTML=types.map(function(t){return '<button class="opt'+(dsel.t==t?' sel':'')+'" onclick="pick(\'t\',\''+t+'\')">'+t+'</button>'}).join('');
+ $('ds').innerHTML=sev.map(function(t){return '<button class="opt'+(dsel.s==t?' sel':'')+'" onclick="pick(\'s\',\''+t+'\')">'+t+'</button>'}).join('');
+ $('dlist').innerHTML=defects.map(function(d){return '<div class="card mc" style="--c:'+(d[2]=='Minor'?col.attn:col.fail)+'"><div class="row"><b>'+d[1]+'</b><span class="chip '+(d[2]=='Minor'?'attn':'fail')+'">'+d[2]+'</span></div><div class="mute">'+d[0]+' · '+d[3]+'</div></div>'}).join('')}
+function pick(k,v){dsel[k]=v;renderDef()}
+
+function handover(){cnt($('h1'),tasks.filter(function(t){return !t[1]}).length,0,'',700);cnt($('h2'),mstat.filter(function(s){return s=='attn'||s=='fail'}).length,0,'',700);cnt($('h3'),defects.length,0,'',700)}
+
+function renderPlants(){$('plants').innerHTML=Object.keys(plants).map(function(p){return '<button class="opt'+(pcur==p?' sel':'')+'" onclick="pcur=\''+p+'\';renderPlants()">'+p+'</button>'}).join('');
+ var d=plants[pcur];
+ var k=[['Units today',d.out,0,'',d.up+' vs last week'],['Defect rate',d.def,1,'%','Target 2.0%'],['Downtime',d.dt,0,' min','Today'],['Checklists done',94,0,'%','This week']];
+ $('kpis').innerHTML=k.map(function(x,i){var c=x[4].charAt(0)=='−'?'dn':(x[4].charAt(0)=='+'?'up':'mute');return '<div class="card"><div class="mute">'+x[0]+'</div><div class="big" id="k'+i+'">0</div><div class="'+c+'">'+x[4]+'</div></div>'}).join('');
+ k.forEach(function(x,i){cnt($('k'+i),x[1],x[2],x[3])});
+ var mx=Math.max.apply(null,d.lines);
+ $('chart').innerHTML=d.lines.map(function(v,i){return '<div><b class="'+(v==mx?'hi':'')+'" data-h="'+Math.round(v*1.15)+'"></b>Line '+(i+1)+'</div>'}).join('');
+ setTimeout(function(){[].forEach.call($('chart').querySelectorAll('b'),function(b){b.style.height=b.dataset.h+'px'})},60)}
+
+$('signbtn').onclick=function(){var n=mstat.filter(function(s){return s=='pend'}).length;toast(n?n+' machines not checked yet':'Inspection log signed and saved')};
+$('ph').onclick=function(){photo=!photo;this.className='photo'+(photo?' has':'');this.textContent=photo?'✓ Photo added':'Tap to add a photo'};
+$('dsub').onclick=function(){if(!dsel.t||!dsel.s){toast('Choose a defect type and severity');return}
+ defects.unshift([$('dm').value,dsel.t,dsel.s,'Just now']);dsel={t:'',s:''};photo=false;$('ph').className='photo';$('ph').textContent='Tap to add a photo';$('dn').value='';renderDef();toast('Defect reported. Supervisor notified.')};
+$('hsub').onclick=function(){var b=this;b.textContent='✓ Sent to night shift';b.className='btn ok';toast('Handover sent');setTimeout(function(){$('ack').className='ack on'},1800)};
+function hideSplash(){$('splash').className='splash out'}
+$('splash').onclick=hideSplash;setTimeout(hideSplash,2100);
+
+buildNav();renderList(true);renderMach();renderDef();go(0);
+</script>
+</body>
+</html>
